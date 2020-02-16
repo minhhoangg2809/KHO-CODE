@@ -96,7 +96,7 @@ class Nhapkho extends CI_Controller {
 	public function getMathangById()
 	{
 		$postData=$this->input->post();
-		$data=$this->Item_Model->get(['id_mathang'=>$postData['id_mathang']]);
+		$data=$this->Item_Model->getByInfo(['id_mathang'=>$postData['id_mathang']]);
 		//create response data
 		$response=[];
 		array_push($response, ['data' => $data]);
