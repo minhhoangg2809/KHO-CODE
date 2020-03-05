@@ -120,6 +120,11 @@
 					</tbody>
 				</table>
 			</div>
+			<div style="margin-bottom: 10px;">
+				<ul class="pagination pagination-sm m-0 float-right">
+					<?php echo $page; ?>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<!-- -- -->

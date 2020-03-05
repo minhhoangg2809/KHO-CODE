@@ -50,9 +50,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h2>Bảng thông tin nhà cung cấp</h2>
-
-
-					<div class="table-responsive table--no-card m-b-30">
+					<div class="table-responsive table--no-card m-b-10">
 						<table class="table table-borderless table-striped table-earning">
 							<thead>
 								<tr>
@@ -96,6 +94,11 @@
 						<?php endforeach ?>
 					</tbody>
 				</table>
+			</div>
+			<div style="margin-bottom: 10px;">
+				<ul class="pagination pagination-sm m-0 float-right">
+					<?php echo $page; ?>
+				</ul>
 			</div>
 		</div>
 	</div>

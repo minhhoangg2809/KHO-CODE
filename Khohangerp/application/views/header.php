@@ -24,6 +24,7 @@
     <link href="<?= base_url() ?>assets/vendor/slick/slick.css" rel="stylesheet" media="all">
     <link href="<?= base_url() ?>assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
     <link href="<?= base_url() ?>assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="<?= base_url() ?>assets/DataTables/datatables.min.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
     <link href="<?= base_url() ?>assets/css/theme.css" rel="stylesheet" media="all">
@@ -32,7 +33,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="<?= base_url() ?>assets/js/jquery.repeatable.js"></script>
 
+    <style type="text/css" media="screen">
+        .row .col-lg-12 {
+            margin-bottom: 20px;
+        }
+    </style>
+
 </head>
 
-<body class="animsition">
+<body class="animsition" onload="loadBody()">
     <div class="page-wrapper">

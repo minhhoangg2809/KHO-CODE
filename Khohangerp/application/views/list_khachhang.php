@@ -93,6 +93,11 @@
 					</tbody>
 				</table>
 			</div>
+			<div>
+				<ul class="pagination pagination-sm m-0 float-right">
+					<?php echo $page; ?>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<!-- -- -->

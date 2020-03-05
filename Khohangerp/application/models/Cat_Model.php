@@ -44,6 +44,12 @@ class Cat_Model extends CI_Model {
     	}
     }
 
+    public function getLimit($lim,$off)
+    {
+      $this->db->limit($lim,$off);
+      return $this->get();
+    }
+
     /**
      * Inserts new data into database
      *
