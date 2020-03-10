@@ -116,5 +116,13 @@ class Xuatkho_Model extends CI_Model {
     	$this->db->delete(self::TABLE_NAME, $where);
     	return $this->db->affected_rows();
     }
+
+    public function getDataChart()
+    {
+        $this->db->select('month(ngayxuat) as thang,sum(soluong) as slx');
+        $this->db->join('chitiet_xuat', 'xuathang.id_xuat = chitiet_xuat.id_xuat', 'inner');
+        $this->db->group_by('month(ngayxuat)');
+        return $this->db->get('xuathang')->result_array();
+    }
 }
 ?>

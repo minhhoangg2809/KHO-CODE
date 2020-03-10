@@ -139,6 +139,17 @@ class Nhapkho extends CI_Controller {
 
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
 	}
+
+	public function getDataChart()
+	{
+		$data=$this->Nhapkho_Model->getDataChart();
+		
+		//create response data
+		$response=[];
+		array_push($response, ['data' => $data]);
+
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 	
 }
 

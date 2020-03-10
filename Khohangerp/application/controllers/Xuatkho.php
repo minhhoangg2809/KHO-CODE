@@ -103,6 +103,17 @@ class Xuatkho extends CI_Controller {
 		$result=$this->Xuatkho_Model->insertDetail($obj2);
 		echo $result;
 	}
+
+	public function getDataChart()
+	{
+		$data=$this->Xuatkho_Model->getDataChart();
+		
+		//create response data
+		$response=[];
+		array_push($response, ['data' => $data]);
+
+		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
 }
 
 /* End of file Xuatkho.php */

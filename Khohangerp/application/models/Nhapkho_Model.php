@@ -23,49 +23,49 @@ class Nhapkho_Model extends CI_Model {
     public function get($where = NULL) {
     	$this->db->select('*');
         $this->db->join('nhacungcap', 'nhaphang.id_nhacungcap = nhacungcap.id_nhacungcap', 'left');
-    	$this->db->from(self::TABLE_NAME);
-    	if ($where !== NULL) {
-    		if (is_array($where)) {
-    			foreach ($where as $field=>$value) {
-    				$this->db->where($field, $value);
-    			}
-    		} else {
-    			$this->db->where(self::PRI_INDEX, $where);
-    		}
-    	}
+        $this->db->from(self::TABLE_NAME);
+        if ($where !== NULL) {
+          if (is_array($where)) {
+             foreach ($where as $field=>$value) {
+                $this->db->where($field, $value);
+            }
+        } else {
+         $this->db->where(self::PRI_INDEX, $where);
+     }
+ }
 
-    	$result = $this->db->get()->result_array();
-    	if ($result) {
-    		if ($where !== NULL) {
-    			return array_shift($result);
-    		} else {
-    			return $result;
-    		}
-    	} else {
-    		return  $result;
-    	}
-    }
+ $result = $this->db->get()->result_array();
+ if ($result) {
+  if ($where !== NULL) {
+     return array_shift($result);
+ } else {
+     return $result;
+ }
+} else {
+  return  $result;
+}
+}
 
-    public function getLimit($lim,$off)
-    {
-        $this->db->limit($lim,$off);
-        return $this->get();
-    }
+public function getLimit($lim,$off)
+{
+    $this->db->limit($lim,$off);
+    return $this->get();
+}
 
-    public function getCt(Array $where = NULL) {
-        if($where != NULL){
-              foreach ($where as $field=>$value) {
-                    $this->db->where($field, $value);
-                }
-           }
-        $this->db->select('chitiet_nhap.*,mathang.*,nhacungcap.ten_nhacungcap as ten_nhacungcap,
-            danhmuc.ten_danhmuc as ten_danhmuc, nhaphang.ngaynhap as ngaynhap');
-        $this->db->join('mathang', 'chitiet_nhap.id_mathang = mathang.id_mathang', 'left');
-        $this->db->join('danhmuc', 'mathang.id_danhmuc = danhmuc.id_danhmuc', 'left');
-        $this->db->join('nhaphang', 'chitiet_nhap.id_nhap = nhaphang.id_nhap', 'left');
-        $this->db->join('nhacungcap', 'nhaphang.id_nhacungcap = nhacungcap.id_nhacungcap', 'left');
-        return $this->db->get('chitiet_nhap')->result_array();
+public function getCt(Array $where = NULL) {
+    if($where != NULL){
+      foreach ($where as $field=>$value) {
+        $this->db->where($field, $value);
     }
+}
+$this->db->select('chitiet_nhap.*,mathang.*,nhacungcap.ten_nhacungcap as ten_nhacungcap,
+    danhmuc.ten_danhmuc as ten_danhmuc, nhaphang.ngaynhap as ngaynhap');
+$this->db->join('mathang', 'chitiet_nhap.id_mathang = mathang.id_mathang', 'left');
+$this->db->join('danhmuc', 'mathang.id_danhmuc = danhmuc.id_danhmuc', 'left');
+$this->db->join('nhaphang', 'chitiet_nhap.id_nhap = nhaphang.id_nhap', 'left');
+$this->db->join('nhacungcap', 'nhaphang.id_nhacungcap = nhacungcap.id_nhacungcap', 'left');
+return $this->db->get('chitiet_nhap')->result_array();
+}
 
 
 
@@ -126,6 +126,14 @@ class Nhapkho_Model extends CI_Model {
     	}
     	$this->db->delete(self::TABLE_NAME, $where);
     	return $this->db->affected_rows();
+    }
+
+    public function getDataChart()
+    {
+        $this->db->select('month(ngaynhap) as thang,sum(soluong) as sln');
+        $this->db->join('chitiet_nhap', 'nhaphang.id_nhap = chitiet_nhap.id_nhap', 'inner');
+        $this->db->group_by('month(ngaynhap)');
+        return $this->db->get('nhaphang')->result_array();
     }
 }
 ?>
