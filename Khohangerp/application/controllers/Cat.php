@@ -20,6 +20,12 @@ class Cat extends CI_Controller {
 
 	public function toList()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$total_rows = count($this->Cat_Model->get());
 		$per_page = 5;
 
@@ -67,6 +73,12 @@ class Cat extends CI_Controller {
 	// Add a new item
 	public function add()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$data = $this->input->post();
 
 		$item =
@@ -95,6 +107,12 @@ class Cat extends CI_Controller {
 	//Update one item
 	public function update()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$data = $this->input->post();
 
 		$item =
@@ -121,6 +139,12 @@ class Cat extends CI_Controller {
 	//Delete one item
 	public function delete()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$id = $this->input->post('id');
 
 		$res = $this->Cat_Model->delete($id);
@@ -165,6 +189,16 @@ class Cat extends CI_Controller {
 	{
 		$data=['content'=>$content,'createdBy'=>$createdBy];
 		$this->Thongbao_Model->insert($data);
+	}
+
+	public function checkSession()
+	{
+		if (!empty($_SESSION['username'])){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 

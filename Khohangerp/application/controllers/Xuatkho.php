@@ -18,6 +18,12 @@ class Xuatkho extends CI_Controller {
 	// List all your items
 	public function index( $offset = 0 )
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$total_rows = count($this->Xuatkho_Model->get());
 		$per_page = 5;
 
@@ -66,6 +72,12 @@ class Xuatkho extends CI_Controller {
 
 	public function getDetail()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$postData=$this->input->post();
 		$data=$this->Xuatkho_Model->getCt(['chitiet_xuat.id_xuat'=>$postData['id_xuat']]);
 		echo json_encode($data);
@@ -74,6 +86,12 @@ class Xuatkho extends CI_Controller {
 	// Add a new item
 	public function add()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$postData=$this->input->post();
 		$xuatObj=$this->Xuatkho_Model->get(['ngayxuat'=>date('Y-m-d'),'khachhang.id_khachhang'=>$postData['id_khachhang']]);
 		if (count($xuatObj)==0) {
@@ -106,6 +124,12 @@ class Xuatkho extends CI_Controller {
 
 	public function getDataChart()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+		
 		$data=$this->Xuatkho_Model->getDataChart();
 		
 		//create response data
@@ -113,6 +137,16 @@ class Xuatkho extends CI_Controller {
 		array_push($response, ['data' => $data]);
 
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function checkSession()
+	{
+		if (!empty($_SESSION['username'])){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 

@@ -14,6 +14,12 @@ class Khachhang extends CI_Controller {
 	// List all your items
 	public function index( $offset = 0 )
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$total_rows = count($this->Khachhang_Model->get());
 		$per_page = 5;
 
@@ -61,6 +67,12 @@ class Khachhang extends CI_Controller {
 	// Add a new item
 	public function add()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$data = $this->input->post();
 		$khachhang = [
 			'ten_khachhang' => $data['ten_khachhang'],
@@ -92,6 +104,12 @@ class Khachhang extends CI_Controller {
 	//Update one item
 	public function update( $id = NULL )
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$data = $this->input->post();
 
 		$khachhang = [
@@ -121,6 +139,12 @@ class Khachhang extends CI_Controller {
 	//Delete one item
 	public function delete( $id = NULL )
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$id=$this->input->post('id');
 
 		$res = $this->Khachhang_Model->delete($id);
@@ -143,6 +167,16 @@ class Khachhang extends CI_Controller {
 	{
 		$data=['content'=>$content,'createdBy'=>$createdBy];
 		$this->Thongbao_Model->insert($data);
+	}
+
+	public function checkSession()
+	{
+		if (!empty($_SESSION['username'])){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 

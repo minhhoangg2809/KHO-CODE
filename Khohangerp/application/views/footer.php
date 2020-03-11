@@ -141,6 +141,27 @@
 
 		}
 
+		function deleteNotify(id) {
+			var path='<?= base_url() ?>';
+			$.ajax({
+				url: path+'Thongbao/delete', 
+				type: 'post',
+				dataType: 'text',
+				data: {id: id},
+			})
+			.done(function() {
+				console.log("success");
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function(res) {
+				console.log(res);
+				getNotification();
+			});
+
+		}
+
 		function getNotification() {
 			var path='<?= base_url() ?>';
 			$.ajax({
@@ -163,13 +184,13 @@
 					}
 					var content='';
 					for (var i = list.length - 1; i >= 0; i--) {
-						content+='<div class="notifi__item">';
+						content+='<a class="notifi__item" href="javascript:;" onclick="deleteNotify('+list[i].id+')">';
 						content+='<div class="bg-c1 img-cir img-40"><i class="zmdi zmdi-email-open"></i></div>';
 						content+=' <div class="content">';
 						content+='<p>'+list[i].content+'</p>';
 						content+=' <span class="date">'+list[i].datetime+'</span>';
 						content+='</div>';
-						content+='</div>';
+						content+='</a>';
 					}
 
 					$('#listNotification').html('');

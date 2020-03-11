@@ -21,6 +21,12 @@ class Item extends CI_Controller {
 
 	public function toList()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+		
 		$total_rows = count($this->Item_Model->get());
 		$per_page = 5;
 
@@ -69,6 +75,12 @@ class Item extends CI_Controller {
 
 	public function filter_danhmuc()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$id_danhmuc = $this->input->post('id_danhmuc');
 
 		$data = $this->Item_Model->getbyDanhmuc($id_danhmuc);
@@ -78,6 +90,12 @@ class Item extends CI_Controller {
 
 	public function filter_nhacungcap()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$id_nhacungcap = $this->input->post('id_nhacungcap');
 
 		$data = $this->Item_Model->getbyNhacungcap($id_nhacungcap);
@@ -87,6 +105,12 @@ class Item extends CI_Controller {
 
 	public function filter_nhacungcapvsdanhmuc()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$id_nhacungcap = $this->input->post('id_nhacungcap');
 		$id_danhmuc = $this->input->post('id_danhmuc');
 
@@ -98,6 +122,12 @@ class Item extends CI_Controller {
 	// Add a new item
 	public function add()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$data = $this->input->post();
 
 		$mamathang = $this->Tao_Mamathang($data['nhacungcap'],$data['danhmuc']);
@@ -213,6 +243,16 @@ class Item extends CI_Controller {
 	{
 		$data=['content'=>$content,'createdBy'=>$createdBy];
 		$this->Thongbao_Model->insert($data);
+	}
+
+	public function checkSession()
+	{
+		if (!empty($_SESSION['username'])){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 

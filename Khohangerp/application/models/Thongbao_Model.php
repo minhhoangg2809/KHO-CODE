@@ -87,7 +87,7 @@ public function getLimit($lim,$off)
      * @return int Number of rows affected by the delete query
      */
     public function delete($where = array()) {
-    	if (!is_array()) {
+    	if (!is_array($where)) {
     		$where = array(self::PRI_INDEX => $where);
     	}
     	$this->db->delete(self::TABLE_NAME, $where);

@@ -14,6 +14,12 @@ class Nhacungcap extends CI_Controller {
 	// List all your items
 	public function index( $offset = 0 )
 	{
+		$chk=$this->checkSession();
+		if ($chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$total_rows = count($this->Supplier_Model->get());
 		$per_page = 5;
 
@@ -61,6 +67,12 @@ class Nhacungcap extends CI_Controller {
 	// Add a new item
 	public function add()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$data = $this->input->post();
 		$nhacungcap = [
 			'ten_nhacungcap' => $data['ten_nhacungcap'],
@@ -94,6 +106,12 @@ class Nhacungcap extends CI_Controller {
 	//Update one item
 	public function update( $id = NULL )
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$data = $this->input->post();
 
 		$nhacungcap = [
@@ -125,6 +143,12 @@ class Nhacungcap extends CI_Controller {
 	//Delete one item
 	public function delete( $id = NULL )
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$id=$this->input->post('id');
 
 		$res = $this->Supplier_Model->delete($id);
@@ -147,6 +171,16 @@ class Nhacungcap extends CI_Controller {
 	{
 		$data=['content'=>$content,'createdBy'=>$createdBy];
 		$this->Thongbao_Model->insert($data);
+	}
+
+	public function checkSession()
+	{
+		if (!empty($_SESSION['username'])){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 

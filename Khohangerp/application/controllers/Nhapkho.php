@@ -16,6 +16,12 @@ class Nhapkho extends CI_Controller {
 	// List all your items
 	public function index()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$total_rows = count($this->Nhapkho_Model->get());
 		$per_page = 5;
 
@@ -63,6 +69,12 @@ class Nhapkho extends CI_Controller {
 
 	public function getDetail()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$postData=$this->input->post();
 		$data=$this->Nhapkho_Model->getCt(['chitiet_nhap.id_nhap'=>$postData['id_nhap']]);
 		echo json_encode($data);
@@ -71,6 +83,12 @@ class Nhapkho extends CI_Controller {
 	// Add 
 	public function add()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$postData=$this->input->post();
 		$nhapObj=$this->Nhapkho_Model->get(['ngaynhap'=>date('Y-m-d'),'nhacungcap.id_nhacungcap'=>$postData['id_nhacungcap']]);
 		if (count($nhapObj)==0) {
@@ -102,6 +120,12 @@ class Nhapkho extends CI_Controller {
 
 	public function getDanhmuc()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$postData=$this->input->post();
 		$data=$this->Cat_Model->getDanhmuc_Nhacungcap($postData['id_nhacungcap']);
 		//create response data
@@ -113,6 +137,12 @@ class Nhapkho extends CI_Controller {
 
 	public function getMathang()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$postData=$this->input->post();
 		$searchItem=[
 			'id_nhacungcap'=>$postData['id_nhacungcap'],
@@ -131,6 +161,12 @@ class Nhapkho extends CI_Controller {
 
 	public function getMathangById()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$postData=$this->input->post();
 		$data=$this->Item_Model->getByInfo(['id_mathang'=>$postData['id_mathang']]);
 		//create response data
@@ -142,6 +178,12 @@ class Nhapkho extends CI_Controller {
 
 	public function getDataChart()
 	{
+		$chk=$this->checkSession();
+		if (!$chk) {
+			redirect('User','refresh');
+			die();
+		}
+
 		$data=$this->Nhapkho_Model->getDataChart();
 		
 		//create response data
@@ -149,6 +191,16 @@ class Nhapkho extends CI_Controller {
 		array_push($response, ['data' => $data]);
 
 		$this->output->set_content_type('application/json')->set_output(json_encode($response));
+	}
+
+	public function checkSession()
+	{
+		if (!empty($_SESSION['username'])){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 }
