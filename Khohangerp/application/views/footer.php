@@ -27,11 +27,13 @@
 <script type="text/javascript" charset="utf-8" async defer>
 	function loadBody() {
 		getNotification();
-		loadChart();
+		setTimeout(function() {
+			loadChart();
+		},5000)
 		setInterval(function () {
 			getNotification();
-			loadChart();
-		},10000);
+		},5000);
+		
 	}
 
 	function loadChart() {
@@ -64,69 +66,72 @@
 			    		}
 			    	});
 
-			    	console.log(testMonthStr);
 
-			    	$.ajax({
-			    		url: path+'Xuatkho/getDataChart', 
-			    		dataType: 'json',
-			    		cache: false,
-			    		contentType: false,
-			    		processData: false,
-			    		type: 'post',
-			    		success: function (res) {
-			    			var listBase=res[0].data
-			    			for (var i = 0; i < listBase.length; i++) {
-			    				if (!testMonthStr.includes(listBase[i].thang)) 
-			    				{
-			    					listMonth.push("Tháng "+listBase[i].thang);
+			    	setTimeout(function() {
+			    		$.ajax({
+			    			url: path+'Xuatkho/getDataChart', 
+			    			dataType: 'json',
+			    			cache: false,
+			    			contentType: false,
+			    			processData: false,
+			    			type: 'post',
+			    			success: function (res) {
+			    				var listBase=res[0].data
+			    				for (var i = 0; i < listBase.length; i++) {
+			    					if (!testMonthStr.includes(listBase[i].thang)) 
+			    					{
+			    						listMonth.push("Tháng "+listBase[i].thang);
+			    					}
+			    					listAmountOutput.push(listBase[i].slx);
 			    				}
-			    				listAmountOutput.push(listBase[i].slx);
 			    			}
-			    		}
-			    	});
+			    		});
+			    	},5000)
 
-			    	ctx.height = 200;
-			    	var myChart = new Chart(ctx, {
-			    		type: 'bar',
-			    		defaultFontFamily: 'Poppins',
-			    		data: {
-			    			labels: listMonth,
-			    			datasets: [
-			    			{
-			    				label: "Số lượng nhập",
-			    				data: listAmountInput,
-			    				borderColor: "rgba(0, 123, 255, 0.9)",
-			    				borderWidth: "0",
-			    				backgroundColor: "rgba(0, 123, 255, 0.5)",
-			    				fontFamily: "Poppins"
+			    	setTimeout(function() {
+			    		ctx.height = 200;
+			    		var myChart = new Chart(ctx, {
+			    			type: 'bar',
+			    			defaultFontFamily: 'Poppins',
+			    			data: {
+			    				labels: listMonth,
+			    				datasets: [
+			    				{
+			    					label: "Số lượng nhập",
+			    					data: listAmountInput,
+			    					borderColor: "rgba(0, 123, 255, 0.9)",
+			    					borderWidth: "0",
+			    					backgroundColor: "rgba(0, 123, 255, 0.5)",
+			    					fontFamily: "Poppins"
+			    				},
+			    				{
+			    					label: "Số lượng xuất",
+			    					data: listAmountOutput,
+			    					borderColor: "rgba(0,0,0,0.09)",
+			    					borderWidth: "0",
+			    					backgroundColor: "rgba(0,0,0,0.07)",
+			    					fontFamily: "Poppins"
+			    				}
+			    				]
 			    			},
-			    			{
-			    				label: "Số lượng xuất",
-			    				data: listAmountOutput,
-			    				borderColor: "rgba(0,0,0,0.09)",
-			    				borderWidth: "0",
-			    				backgroundColor: "rgba(0,0,0,0.07)",
-			    				fontFamily: "Poppins"
-			    			}
-			    			]
-			    		},
-			    		options: {
-			    			scales: {
-			    				xAxes: [{
-			    					ticks: {
-			    						fontFamily: "Poppins"
+			    			options: {
+			    				scales: {
+			    					xAxes: [{
+			    						ticks: {
+			    							fontFamily: "Poppins"
 
-			    					}
-			    				}],
-			    				yAxes: [{
-			    					ticks: {
-			    						beginAtZero: true,
-			    						fontFamily: "Poppins"
-			    					}
-			    				}]
+			    						}
+			    					}],
+			    					yAxes: [{
+			    						ticks: {
+			    							beginAtZero: true,
+			    							fontFamily: "Poppins"
+			    						}
+			    					}]
+			    				}
 			    			}
-			    		}
-			    	});
+			    		});
+			    	},10000)
 			    }
 
 
